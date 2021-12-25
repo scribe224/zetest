@@ -38,9 +38,11 @@ class RecognitionView(APIView):
         resulttext = reader.readtext(file_name, detail=0, paragraph=True)
         print(type(resulttext)) # по итогу - list. Возможно из за атрибута paragraph
         print(resulttext)
+        finaltext = ''
         with open('resultfile.txt', 'w') as file:
             for row in resulttext:
                 file.write(row+'\n')
+                finaltext += row+"\n"
         if serializer.is_valid(raise_exception=True):
                 recognition_saved = serializer.save()
-        return Response({"status": "created successfully"})
+        return Response({"status": "created successfully", "recognition":finaltext})
